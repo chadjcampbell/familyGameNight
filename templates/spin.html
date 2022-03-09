@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Spin the Wheel!
+{% endblock %}
+
+{% block main %}
+<hr>
+<div class="container">
+<h2>What Are You Playing Tonight?</h2>
+<h6><i>Touch, or Click, to find out!</i></h6>
+<hr>
+</div>
+<div  class="d-flex justify-content-center">
+{% if options|length < 2 %}
+<h2> Add at least 2 games to your account to activate the wheel! </h2>
+{% else %}
+<canvas></canvas>
+{% endif %}
+</div>
+
+<script>
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+canvas.height = document.body.offsetHeight;
+canvas.width = document.body.offsetWidth;
+ctx.font = '18px/1.4 sans-serif';
+
+const R = Math.min(canvas.height, canvas.width) / 2 - 10;
+const options = {{options|safe}};
+const fillers = ['#2e944b', '#ea433b', '#f5b82e'];
+const fillStyles = [];
+
+for(var i=0, j=0; i < options.length; i++, j++) {
+  if (j>2) j=0;
+  fillStyles.push(fillers[j]);
+}
+
+let decay = -0.01;
+let a = 0;
+let ang = 0;
+
+function drawWheel() {
+  if (a < 0) return;
+
+  ctx.save();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(canvas.width/2, canvas.height/2);
+  ctx.rotate(ang += a);
+
+  ctx.beginPath();
+
+  const inc = 2 * Math.PI / options.length;
+  ctx.arc(0, 0, R, 0, 2 * Math.PI);
+  let c, s, m;
+
+  for(var i = 0, j = 0; i <= 2 * Math.PI && j < options.length; i += inc, j++) {
+    c = Math.cos(i);
+    s = Math.sin(i);
+
+    ctx.beginPath();
+    ctx.fillStyle = fillStyles[j];
+    ctx.moveTo(0, 0);
+    ctx.lineTo(R * c, R * s);
+    ctx.lineWidth = '10px';
+    ctx.arc(0, 0, R, i, i + inc);
+    ctx.lineTo(0, 0);
+    ctx.fill();
+    ctx.stroke();
+
+    m = ctx.measureText(options[j]);
+    ctx.fillStyle = 'black';
+    ctx.fillText(
+      options[j],
+      R/2 * Math.cos(i + inc / 2) - m.width / 2,
+      R/2 * Math.sin(i + inc / 2)
+    );
+  }
+
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.fillStyle = '#CC1155';
+  ctx.moveTo(canvas.width/2, 10);
+  ctx.lineTo(canvas.width/2 - 10, 10);
+  ctx.lineTo(canvas.width/2 + 10 * (ang % inc), 50);
+  ctx.lineTo(canvas.width/2 + 10, 10);
+  ctx.fill();
+  ctx.stroke();
+}
+
+let lastUpdate;
+
+canvas.onclick = () => {
+  a = Math.random() + 0.5;
+};
+
+window.requestAnimationFrame(function tick(ts) {
+  if (!lastUpdate) lastUpdate = ts;
+  if (ts - lastUpdate < 10) {
+    return window.requestAnimationFrame(tick);
+  }
+
+  lastUpdate = ts;
+  a += a * decay;
+  drawWheel();
+  window.requestAnimationFrame(tick);
+})
+
+drawWheel();
+
+</script>
+{% endblock %}
