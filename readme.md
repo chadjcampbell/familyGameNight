@@ -20,6 +20,7 @@ These forms are validated with SQL queries and a hash for the password made usin
 These forms and data tables INSERT and show SELECTED data for the apps other services, the leaderboard/history and the "wheel".
 
 ###### History/Leaderboard:
-The forms on this page only allow inputs from the data tables controlled on the Family or Games page, but they INSERT into their own table. This way games and family members can be added and removed while the historical data here will stay.
+The forms on this page only allow inputs from the data tables controlled on the Family or Games page, but they INSERT into their own table. This way games and family members can be added and removed while the historical data here will remain.
 
 ###### Spin the Wheel:
+The Wheel was a bit tricky. I wanted something that would change dynamically based on the users games table. Most iterations of this I could find prior were done with mainly CSS and were static. 
