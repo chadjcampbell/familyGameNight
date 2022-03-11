@@ -23,4 +23,6 @@ These forms and data tables INSERT and show SELECTED data for the apps other ser
 The forms on this page only allow inputs from the data tables controlled on the Family or Games page, but they INSERT into their own table. This way games and family members can be added and removed while the historical data here will remain.
 
 ###### Spin the Wheel:
-The Wheel was a bit tricky. I wanted something that would change dynamically based on the users games table. Most iterations of this I could find prior were done with mainly CSS and were static. 
+The Wheel was a bit tricky. I wanted something that would change dynamically based on the users games table. Most iterations of this I could find prior were done with mainly CSS and were static. The answer was winwheel.js. A Javascript library that does the heavy lifting by utilizing a canvas element in HTML. Adding some loops and some of the built in functions of the library the segments of the wheel are created with the data from the SQL table associated with the users games.
+
+#### Thank you to everyone at CS:50 for the knowledge and the fun! On to the next learning adventure!
