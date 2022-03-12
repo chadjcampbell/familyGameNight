@@ -18,8 +18,10 @@ nav .navbar-brand .green
     color: #2e944b;
 }
 
-canvas {
-    width: 85vw;
-    display: flex;
-    flex-direction: row;
-  }
+.arrow-down {
+width: 0;
+height: 0;
+border-left: 20px solid transparent;
+border-right: 20px solid transparent;
+border-top: 20px solid #000000;
+}
